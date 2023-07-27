@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  birthdate: 2023-07-26 10:21:01
+  sex: MyString
+  heath_problem: one
+
+two:
+  name: MyString
+  birthdate: 2023-07-26 10:21:01
+  sex: MyString
+  heath_problem: two
