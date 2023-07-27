@@ -5,7 +5,7 @@ require 'faker'
 
 RSpec.describe Client, type: :model do
   context 'when saved' do
-    let(:client) { FactoryBot.build(:client) }
+    let(:client) { create(:client) }
 
     it 'has a name field' do
       expect(client.name).to be_present

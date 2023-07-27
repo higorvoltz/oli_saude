@@ -4,7 +4,7 @@ module Api
   module V1
     class ClientsController < ApplicationController
       def index
-        @clients = Client.all
+        @clients = ClientsFacade.get_all_clients
         if @clients.present?
           render json: @clients, status: :ok
         else
@@ -13,7 +13,7 @@ module Api
       end
 
       def show
-        @client = Client.find(params[:id])
+        @client = ClientsFacade.get_client(params[:id])
         if @client.present?
           render json: @client, status: :ok
         else
@@ -22,7 +22,7 @@ module Api
       end
 
       def create
-        @client = Client.create!(client_params)
+        @client = ClientsFacade.create_client(client_params)
         if @client.present?
           render json: @client, status: :created
         else
@@ -31,9 +31,8 @@ module Api
       end
 
       def update
-        @client = Client.find(params[:id])
+        @client = ClientsFacade.update_client(params[:id], client_params)
         if @client.present?
-          @client.update(client_params)
           render json: @client, status: :ok
         else
           render json: { error: 'Client not updated' }, status: :unprocessable_entity
@@ -41,7 +40,7 @@ module Api
       end
 
       def destroy
-        @client = Client.find(params[:id])
+        @client = ClientsFacade.delete_client(params[:id])
         if @client.destroy
           render json: { message: 'Client deleted' }, status: :ok
         else
@@ -51,8 +50,7 @@ module Api
 
       def report_most_affected_clients
         quantity = params[:quantity].to_i || 10
-        most_problems = HealthProblem.order(degree: :desc).limit(quantity)
-        most_affected_clients = Client.where(health_problem_id: most_problems.pluck(:id))
+        most_affected_clients = ClientsFacade.get_most_affected_clients(quantity)
 
         if most_affected_clients.present?
           render json: most_affected_clients, status: :ok
@@ -69,5 +67,3 @@ module Api
     end
   end
 end
-
-

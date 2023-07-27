@@ -22,9 +22,11 @@ module Api
       end
 
       def create
-        @health_problem = HealthProblem.create!(health_problem_params)
-        if @health_problem.present?
-          render json: @health_problem, status: :created
+        health_problem = HealthProblem.new(health_problem_params)
+        health_problem_decorator = HealthProblemDecorator.new(health_problem)
+
+        if health_problem_decorator.save
+          render json: health_problem_decorator, status: :created
         else
           render json: { error: 'Health problem not created' }, status: :unprocessable_entity
         end

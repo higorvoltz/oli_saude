@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :health_problem do
-    name { File.readlines('app/diseases_list/index.txt').sample.chomp.gsub("'", '') }
+    diseases = File.read('app/diseases_list/index.txt').split(',')
+    name { diseases.sample.strip.gsub("'", '') }
     degree { rand(1..100) }
   end
 end
