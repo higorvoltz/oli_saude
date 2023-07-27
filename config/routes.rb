@@ -10,7 +10,20 @@ Rails.application.routes.draw do
   end
 
   namespace :api do
+    namespace :v2 do
+      resources :health_problems, only: %i[index show create update destroy]
+    end
+  end
+
+  namespace :api do
     namespace :v1 do
+      get '/clients/report_most_affected_clients', to: 'clients#report_most_affected_clients'
+      resources :clients, only: %i[index show create update destroy]
+    end
+  end
+
+  namespace :api do
+    namespace :v2 do
       get '/clients/report_most_affected_clients', to: 'clients#report_most_affected_clients'
       resources :clients, only: %i[index show create update destroy]
     end

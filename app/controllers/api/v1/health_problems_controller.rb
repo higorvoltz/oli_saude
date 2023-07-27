@@ -43,10 +43,11 @@ module Api
 
       def destroy
         @health_problem = HealthProblem.find(params[:id])
-        if @health_problem.destroy
+        if @health_problem.present?
+          @health_problem.destroy
           render json: { message: 'Health problem deleted' }, status: :ok
         else
-          render json: { error: 'Health problem not deleted' }, status: :unprocessable_entity
+          render json: { error: 'Health problem not found' }, status: :not_found
         end
       end
 
